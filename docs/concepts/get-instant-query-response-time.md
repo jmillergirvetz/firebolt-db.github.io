@@ -87,10 +87,10 @@ CREATE AND GENERATE AGGREGATING INDEX agg_fact_orders ON fact_orders
 );
 ```
 
-From now on, every query for data from the _fact\_orders_ table that combines any of these fields and aggregations will now benefit from the aggregating index. Instead of performing a full query scan and perform each aggregation - the engine uses the aggregating index which already has the required aggregating pre-calculated providing a sub-second query response time.
+From now on, every query for data from the _fact\_orders_ table that combines any of these fields and aggregations will now benefit from the aggregating index. Instead of performing a full query scan and each aggregation - the engine uses the aggregating index which already has the required aggregates pre-calculated. This provides a sub-second query response time.
 
 
-The order of the fields is important. Firebolt will create the primary index on the aggregating index as an optimization to filter it best. The primary index will be built base on the index fields, in the order as they were written. In our example, the primary index will be in the following order: `store_id`, `product_id`. Make sure to write first those you mostly filter by in your query [WHERE clause](../sql-reference/commands/query-syntax.md#where).
+The order of the fields is important. Firebolt will create the primary index on the aggregating index as an optimization to best filter it. The primary index will be built based on the index fields, in the order they were written. In our example, the primary index will be in the following order: `store_id`, `product_id`. Make sure to write first those you mostly filter by in your query [WHERE clause](../sql-reference/commands/query-syntax.md#where).
 
 
 ## Accelerate joins using join indexes
@@ -102,7 +102,7 @@ Join indexes are not updated automatically in an engine when new data is ingeste
 
 ### When to use join index
 
-You should consider implementing join indexes as best practice in Firebolt to speed up any query which performs a join with a dimension table. This reduces the additional overhead of performing the join to the minimum with the benefit of fast query response times while keeping your cloud bill low.
+You should consider implementing join indexes as best practice in Firebolt to speed up any query which performs a join with a dimension table. This reduces the additional overhead of performing the join to the minimum with the benefit of fast query response times. It also keeps your cloud bill low.
 
 ### Create join index
 
